@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Affiliations — Dr. Felix</title>
+<meta name="description" content="Institutions, fellowships, and ventures Dr. Felix has been part of.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   THREE LIVES OF A MAN — core design system
+   Tokens
+   ========================================================= */
+:root{
+  /* color */
+  --ink:        #102A43;   /* the life he is born into */
+  --ink-deep:   #081625;
+  --ink-soft:   #3C5A75;
+  --paper:      #F8F5EE;   /* the page itself */
+  --paper-dim:  #EFE8D9;
+  --wine:       #7A2331;   /* the life he loses */
+  --wine-deep:  #4F141C;
+  --gold:       #C7A24A;   /* the life he must rebuild */
+  --gold-soft:  #E2CC97;
+  --text:       #181C20;
+  --text-soft:  rgba(24,28,32,.64);
+  --on-ink:     #F3EFE3;
+  --on-ink-soft:rgba(243,239,227,.66);
+  --glass:      rgba(248,245,238,.55);
+  --glass-ink:  rgba(8,22,37,.46);
+  --glass-line: rgba(255,255,255,.38);
+  --line:       rgba(16,42,67,.14);
+
+  /* type */
+  --f-display: "Fraunces", "Iowan Old Style", serif;
+  --f-body: "Manrope", -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "Space Mono", "SF Mono", monospace;
+
+  /* shape */
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 30px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --ease-soft: cubic-bezier(.16,.84,.44,1);
+
+  --maxw: 1180px;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--text);
+  font-family:var(--f-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+ul{ margin:0; padding:0; list-style:none; }
+button{ font-family:inherit; background:none; border:none; cursor:pointer; color:inherit; }
+::selection{ background:var(--gold-soft); color:var(--ink-deep); }
+
+/* Hide scrollbar for all browsers */
+html, body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
+.container{ width:100%; max-width:var(--maxw); margin:0 auto; padding:0 28px; }
+.eyebrow{
+  font-family:var(--f-mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--wine); display:inline-flex; align-items:center; gap:10px;
+}
+.eyebrow::before{ content:""; width:18px; height:1px; background:currentColor; display:inline-block; }
+.on-ink .eyebrow, .countdown .eyebrow, .themes .eyebrow{ color:var(--gold-soft); }
+
+h1,h2,h3,h4{ font-family:var(--f-display); font-weight:600; margin:0; letter-spacing:-.01em; }
+p{ margin:0; }
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:15px 30px; border-radius:999px;
+  font-family:var(--f-body); font-weight:700; font-size:14.5px; letter-spacing:.01em;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease), background .3s, color .3s, border-color .3s;
+  white-space:nowrap;
+}
+.btn-primary{ background:var(--wine); color:var(--on-ink); box-shadow:0 10px 30px -10px rgba(122,35,49,.6); }
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(122,35,49,.7); }
+.btn-ghost{ background:transparent; color:var(--ink); border:1px solid var(--line); }
+.btn-ghost:hover{ border-color:var(--ink); transform:translateY(-2px); }
+.btn-ghost.on-ink{ color:var(--on-ink); border-color:rgba(243,239,227,.3); }
+.btn-ghost.on-ink:hover{ border-color:var(--on-ink); }
+.btn-sm{ padding:10px 20px; font-size:13px; }
+
+/* =========================================================
+   Nav — liquid glass chrome
+   ========================================================= */
+.nav{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 28px;
+  transition:padding .4s var(--ease), background .4s var(--ease), box-shadow .4s var(--ease);
+}
+.nav::before{
+  content:""; position:absolute; inset:0;
+  background:var(--glass);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:1px solid transparent;
+  opacity:0; transition:opacity .4s var(--ease);
+  z-index:-1;
+}
+.nav.is-scrolled::before{ opacity:1; border-bottom-color:var(--glass-line); }
+.nav.is-scrolled{ padding:12px 28px; box-shadow:0 10px 30px -20px rgba(8,22,37,.25); }
+
+.nav-brand{ display:flex; align-items:center; gap:10px; font-family:var(--f-display); font-weight:600; font-size:17px; color:var(--ink); }
+.nav-brand .mark{ width:9px; height:9px; border-radius:50%; background:var(--wine); box-shadow:0 0 0 4px rgba(122,35,49,.15); }
+
+.nav-links{ display:flex; align-items:center; gap:34px; }
+.nav-links a{
+  font-size:13.5px; font-weight:600; letter-spacing:.02em; color:var(--text-soft);
+  position:relative; padding:4px 0; transition:color .3s;
+}
+.nav-links a::after{
+  content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px; background:var(--wine);
+  transition:width .35s var(--ease);
+}
+.nav-links a:hover{ color:var(--ink); }
+.nav-links a:hover::after, .nav-links a.is-active::after{ width:100%; }
+.nav-links a.is-active{ color:var(--ink); }
+
+.nav-actions{ display:flex; align-items:center; gap:18px; }
+.nav-burger{ display:none; width:34px; height:34px; position:relative; z-index:120; }
+.nav-burger span{ position:absolute; left:6px; right:6px; height:1.5px; background:var(--ink); transition:transform .35s var(--ease), opacity .35s; }
+.nav-burger span:nth-child(1){ top:12px; }
+.nav-burger span:nth-child(2){ top:18px; }
+.nav-burger span:nth-child(3){ top:24px; }
+.nav.is-open .nav-burger span:nth-child(1){ transform:translateY(6px) rotate(45deg); }
+.nav.is-open .nav-burger span:nth-child(2){ opacity:0; }
+.nav.is-open .nav-burger span:nth-child(3){ transform:translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 880px){
+  .nav-links{
+    position:fixed; inset:0; flex-direction:column; justify-content:center; gap:30px;
+    background:linear-gradient(165deg, var(--ink-deep), var(--ink));
+    transform:translateY(-100%); transition:transform .5s var(--ease); z-index:110;
+  }
+  .nav-links a{ color:var(--on-ink-soft); font-size:22px; font-family:var(--f-display); }
+  .nav-links a:hover{ color:var(--on-ink); }
+  .nav.is-open .nav-links{ transform:translateY(0); }
+  .nav-burger{ display:block; }
+  .nav-actions .btn{ display:none; }
+  .nav.is-open .nav-actions{ position:relative; z-index:120; }
+}
+
+/* =========================================================
+   Section rhythm
+   ========================================================= */
+.section{ position:relative; padding:128px 0; }
+.section-tight{ padding:90px 0; }
+.on-ink{ background:linear-gradient(165deg, var(--ink-deep), var(--ink) 60%); color:var(--on-ink); }
+.on-dim{ background:var(--paper-dim); }
+
+/* reveal-on-scroll */
+.reveal{ opacity:0; transform:translateY(28px); transition:opacity .9s var(--ease-soft), transform .9s var(--ease-soft); }
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+.reveal-line{ opacity:0; transform:translateY(16px); transition:opacity .8s var(--ease-soft), transform .8s var(--ease-soft); }
+.reveal-line.is-visible{ opacity:1; transform:translateY(0); }
+.stagger > *{ transition-delay:calc(var(--d, 0) * 90ms); }
+
+/* wavy / not-straight text */
+.wavy{ display:inline-block; white-space:pre-wrap; }
+.wavy .ch{
+  display:inline-block;
+  transform:translateY(calc(sin(var(--i,0) * 1rad) * 7px)) rotate(calc(sin(var(--i,0) * 1rad) * 2.4deg));
+  opacity:0; transition:opacity .6s var(--ease-soft);
+  transition-delay:calc(var(--i,0) * 28ms);
+}
+.wavy.is-visible .ch{ opacity:1; }
+
+/* thread motif — the single recurring signature line */
+.thread{ width:100%; display:block; overflow:visible; }
+.thread path{
+  fill:none; stroke-width:2; stroke-linecap:round;
+  stroke-dasharray:1; stroke-dashoffset:1;
+  transition:stroke-dashoffset 1.6s var(--ease-soft);
+}
+.thread.is-visible path{ stroke-dashoffset:0; }
+.thread--ink path{ stroke:var(--ink); }
+.thread--wine path{ stroke:var(--wine); }
+.thread--gold path{ stroke:var(--gold); }
+.thread--on-ink path{ stroke:var(--gold-soft); }
+
+/* glass card */
+.glass{
+  position:relative; border-radius:var(--r-lg);
+  background:var(--glass-ink);
+  border:1px solid var(--glass-line);
+  backdrop-filter:blur(22px) saturate(150%);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.glass-light{
+  background:rgba(255,255,255,.5);
+  border:1px solid rgba(255,255,255,.6);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+  box-shadow:0 30px 60px -34px rgba(16,42,67,.35), inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+/* liquid ambient blobs */
+.liquid{ position:absolute; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+.blob{
+  position:absolute; border-radius:50%; filter:blur(60px);
+  opacity:.55; will-change:transform;
+  animation:drift 22s ease-in-out infinite;
+}
+@keyframes drift{
+  0%,100%{ transform:translate(0,0) scale(1); }
+  33%{ transform:translate(4%,6%) scale(1.08); }
+  66%{ transform:translate(-5%,-4%) scale(.95); }
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.footer{ background:var(--ink-deep); color:var(--on-ink-soft); padding:64px 0 28px; }
+.footer-top{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:40px; padding-bottom:40px; border-bottom:1px solid rgba(243,239,227,.12); }
+.footer-brand{ font-family:var(--f-display); font-size:22px; color:var(--on-ink); max-width:320px; }
+.footer-brand p{ font-family:var(--f-body); font-size:14px; color:var(--on-ink-soft); margin-top:12px; line-height:1.7; }
+.footer-cols{ display:flex; gap:60px; flex-wrap:wrap; }
+.footer-col h4{ font-family:var(--f-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-soft); margin-bottom:14px; font-weight:400; }
+.footer-col a, .footer-col span{ display:block; font-size:14px; color:var(--on-ink-soft); padding:5px 0; transition:color .25s; }
+.footer-col a:hover{ color:var(--on-ink); }
+.footer-bottom{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-top:24px; font-size:12.5px; color:rgba(243,239,227,.45); font-family:var(--f-mono); }
+
+/* =========================================================
+   Page hero (sub-pages)
+   ========================================================= */
+.page-hero{ padding:170px 0 80px; background:linear-gradient(180deg, var(--paper-dim), var(--paper)); position:relative; }
+.page-hero h1{ font-size:clamp(40px,6vw,72px); line-height:1.05; max-width:760px; }
+.page-hero .lede{ margin-top:20px; max-width:560px; font-size:18px; color:var(--text-soft); }
+
+/* generic cards used by research/opinion/fiction/affiliations */
+.grid{ display:grid; gap:28px; }
+.grid-3{ grid-template-columns:repeat(3,1fr); }
+.grid-2{ grid-template-columns:repeat(2,1fr); }
+@media (max-width:900px){ .grid-3{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){ .grid-3, .grid-2{ grid-template-columns:1fr; } }
+
+.card{
+  background:#fff; border:1px solid var(--line); border-radius:var(--r-md);
+  padding:30px; transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .45s;
+}
+.card:hover{ transform:translateY(-5px); box-shadow:0 24px 50px -28px rgba(16,42,67,.28); border-color:transparent; }
+.tag{ font-family:var(--f-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--wine); }
+
+.row-list{ display:flex; flex-direction:column; }
+.row-item{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:24px;
+  padding:30px 0; border-bottom:1px solid var(--line);
+  transition:padding-left .4s var(--ease);
+}
+.row-item:hover{ padding-left:10px; }
+.row-item:first-child{ border-top:1px solid var(--line); }
+
+@media (max-width:640px){
+  .section{ padding:88px 0; }
+  .row-item{ flex-direction:column; gap:10px; }
+}
+
+/* note banner for placeholder pages */
+.note-banner{
+  display:flex; align-items:center; gap:12px; padding:14px 20px; border-radius:999px;
+  background:var(--paper-dim); border:1px solid var(--line); font-size:13px; color:var(--text-soft);
+  width:fit-content; margin-bottom:48px;
+}
+.note-banner .dot{ width:7px; height:7px; border-radius:50%; background:var(--wine); flex:none; }
+
+/* post meta (opinion / fiction cards) */
+.post-meta{ display:flex; align-items:center; gap:10px; font-family:var(--f-mono); font-size:11px; color:var(--text-soft); margin-top:18px; }
+.post-meta .dot-sep{ width:3px; height:3px; border-radius:50%; background:var(--text-soft); }
+.card h3{ margin-top:14px; font-size:21px; line-height:1.3; }
+.card .excerpt{ margin-top:12px; font-size:14.5px; color:var(--text-soft); line-height:1.7; }
+.card .read{ display:inline-flex; align-items:center; gap:6px; margin-top:18px; font-size:13px; font-weight:700; color:var(--wine); }
+
+/* affiliation mark */
+.aff-mark{
+  width:52px; height:52px; border-radius:50%; flex:none;
+  background:var(--ink); color:var(--on-ink); display:flex; align-items:center; justify-content:center;
+  font-family:var(--f-display); font-size:18px;
+}
+.row-item .row-main{ display:flex; gap:20px; align-items:flex-start; }
+.row-item .row-body h3{ font-family:var(--f-display); font-size:19px; font-weight:600; }
+.row-item .row-body p{ margin-top:6px; font-size:13.5px; color:var(--text-soft); }
+.row-item .row-period{ font-family:var(--f-mono); font-size:12px; color:var(--text-soft); white-space:nowrap; padding-top:8px; }
+
+
+</style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html" class="nav-brand"><span class="mark"></span>Three Lives of a Man</a>
+    <div class="nav-links">
+      <a href="index.html#story" class="">The Story</a>
+      <a href="research.html" class="">Research</a>
+      <a href="opinion.html" class="">Opinion</a>
+      <a href="fiction.html" class="">Fiction</a>
+      <a href="affiliations.html" class="is-active">Affiliations</a>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html#purchase" class="btn btn-primary btn-sm">Buy the Book</a>
+      <button class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow reveal">Affiliations</span>
+      <h1 class="reveal">The rooms he's worked in.</h1>
+      <p class="lede reveal">Institutions, fellowships, and ventures Dr. Felix has been part of across research, education, and enterprise.</p>
+    </div>
+  </section>
+
+  <!-- <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="note-banner reveal"><span class="dot"></span>Placeholder affiliations — replace with Dr. Felix's real institutions and dates.</div> -->
+
+      <div class="row-list reveal">
+        <div class="row-item">
+          <div class="row-main">
+            <div class="aff-mark">U</div>
+            <div class="row-body">
+              <span class="tag">Academic</span>
+              <h3>[University / Institution Name]</h3>
+              <p>Faculty &amp; Researcher</p>
+            </div>
+          </div>
+          <span class="row-period">20XX — Present</span>
+        </div>
+
+        <div class="row-item">
+          <div class="row-main">
+            <div class="aff-mark">O</div>
+            <div class="row-body">
+              <span class="tag">Fellowship</span>
+              <h3>[Fellowship / Organization Name]</h3>
+              <p>Fellow</p>
+            </div>
+          </div>
+          <span class="row-period">20XX</span>
+        </div>
+
+        <div class="row-item">
+          <div class="row-main">
+            <div class="aff-mark">V</div>
+            <div class="row-body">
+              <span class="tag">Enterprise</span>
+              <h3>[Venture / Company Name]</h3>
+              <p>Founder</p>
+            </div>
+          </div>
+          <span class="row-period">20XX — Present</span>
+        </div>
+
+        <div class="row-item">
+          <div class="row-main">
+            <div class="aff-mark">P</div>
+            <div class="row-body">
+              <span class="tag">Professional Body</span>
+              <h3>[Professional Association Name]</h3>
+              <p>Member</p>
+            </div>
+          </div>
+          <span class="row-period">20XX</span>
+        </div>
+
+        <div class="row-item">
+          <div class="row-main">
+            <div class="aff-mark">E</div>
+            <div class="row-body">
+              <span class="tag">Education</span>
+              <h3>[Advisory / Board Role]</h3>
+              <p>Advisor</p>
+            </div>
+          </div>
+          <span class="row-period">20XX — Present</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          Three Lives of a Man
+          <p>A literary work by Dr. Felix — on fathers, brothers, loss, and the lives we are forced to rebuild.</p>
+        </div>
+        <div class="footer-cols">
+          <div class="footer-col">
+            <h4>Read</h4>
+            <a href="index.html#story">The Story</a>
+            <a href="index.html#themes">Core Themes</a>
+            <a href="index.html#purchase">Buy the Book</a>
+          </div>
+          <div class="footer-col">
+            <h4>Dr. Felix</h4>
+            <a href="research.html">Research</a>
+            <a href="opinion.html">Opinion</a>
+            <a href="fiction.html">Fiction</a>
+            <a href="affiliations.html">Affiliations</a>
+          </div>
+          <div class="footer-col">
+            <h4>Elsewhere</h4>
+            <span>Instagram — @drfelix</span>
+            <span>X — @drfelix</span>
+            <span>LinkedIn — Dr. Felix</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span data-year></span> Dr. Felix. All rights reserved.</span>
+        <span>Three lives. One man. One story.</span>
+      </div>
+    </div>
+  </footer>
+
+<script>
+/* =========================================================
+   THREE LIVES OF A MAN — core behaviour
+   Shared across every page: nav, reveal-on-scroll, wavy text
+   ========================================================= */
+(function(){
+
+  /* ---------- Nav ---------- */
+  function initNav(){
+    var nav = document.querySelector('.nav');
+    if(!nav) return;
+    var burger = nav.querySelector('.nav-burger');
+    var links  = nav.querySelectorAll('.nav-links a');
+
+    function onScroll(){
+      if(window.scrollY > 18){ nav.classList.add('is-scrolled'); }
+      else{ nav.classList.remove('is-scrolled'); }
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive:true });
+
+    if(burger){
+      burger.addEventListener('click', function(){
+        nav.classList.toggle('is-open');
+      });
+    }
+    links.forEach(function(a){
+      a.addEventListener('click', function(){ nav.classList.remove('is-open'); });
+    });
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  function initReveal(){
+    var targets = document.querySelectorAll('.reveal, .reveal-line, .thread, .wavy');
+    if(!('IntersectionObserver' in window)){
+      targets.forEach(function(t){ t.classList.add('is-visible'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.18, rootMargin:'0px 0px -40px 0px' });
+    targets.forEach(function(t){ obs.observe(t); });
+
+    /* stagger groups: give each child a --d index */
+    document.querySelectorAll('.stagger').forEach(function(group){
+      Array.prototype.forEach.call(group.children, function(child, i){
+        child.style.setProperty('--d', i);
+      });
+    });
+  }
+
+  /* ---------- Wavy / not-straight text ---------- */
+  function wavify(){
+    document.querySelectorAll('[data-wavy]').forEach(function(el){
+      if(el.dataset.wavified) return;
+      var text = el.textContent;
+      el.textContent = '';
+      el.classList.add('wavy');
+      var i = 0;
+      text.split(/(\s+)/).forEach(function(token){
+        if(token === '') return;
+        if(/^\s+$/.test(token)){
+          el.appendChild(document.createTextNode(token));
+          return;
+        }
+        token.split('').forEach(function(ch){
+          var span = document.createElement('span');
+          span.className = 'ch';
+          span.style.setProperty('--i', i++);
+          span.textContent = ch;
+          el.appendChild(span);
+        });
+      });
+      el.dataset.wavified = 'true';
+    });
+  }
+
+  /* ---------- Word-by-word reveal ---------- */
+  function wordReveal(){
+    document.querySelectorAll('[data-words]').forEach(function(el){
+      if(el.dataset.wordified) return;
+      var text = el.textContent.trim();
+      el.textContent = '';
+      el.classList.add('stagger');
+      text.split(/\s+/).forEach(function(word, i){
+        var span = document.createElement('span');
+        span.className = 'reveal-line';
+        span.style.display = 'inline-block';
+        span.style.setProperty('--d', i);
+        span.textContent = word + '\u00A0';
+        el.appendChild(span);
+      });
+      el.dataset.wordified = 'true';
+      if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            if(entry.isIntersecting){
+              Array.prototype.forEach.call(el.children, function(span){ span.classList.add('is-visible'); });
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold:0.4 });
+        obs.observe(el);
+      } else {
+        Array.prototype.forEach.call(el.children, function(span){ span.classList.add('is-visible'); });
+      }
+    });
+  }
+
+  /* ---------- Footer year ---------- */
+  function footerYear(){
+    var el = document.querySelector('[data-year]');
+    if(el) el.textContent = new Date().getFullYear();
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    initNav();
+    wavify();
+    wordReveal();
+    initReveal();
+    footerYear();
+  });
+
+  window.TLM = window.TLM || {};
+  window.TLM.initReveal = initReveal;
+})();
+
+
+</script>
+</body>
+</html>
