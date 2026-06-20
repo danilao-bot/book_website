@@ -740,13 +740,15 @@ body.page-revealed .hero-fade-in {
   filter: blur(4px);
   transform: translateY(10px);
 }
-.interlocking-quote:hover .unsaid-word {
+.interlocking-quote:hover .unsaid-word,
+.interlocking-quote.active .unsaid-word {
   opacity: 0.88;
   filter: blur(0px);
   transform: translateY(-10px);
   text-shadow: 0 0 12px rgba(226, 204, 151, 0.45);
 }
-.interlocking-quote:hover .said-word {
+.interlocking-quote:hover .said-word,
+.interlocking-quote.active .said-word {
   opacity: 0.35;
   filter: blur(0.8px);
 }
@@ -773,7 +775,8 @@ body.page-revealed .hero-fade-in {
     margin-top: 4px;
     opacity: 0.22;
   }
-  .interlocking-quote:hover .unsaid-word {
+  .interlocking-quote:hover .unsaid-word,
+  .interlocking-quote.active .unsaid-word {
     transform: translateY(-3px) !important;
     opacity: 0.9;
   }
@@ -1006,10 +1009,6 @@ body.page-revealed .hero {
     <div class="splash-content">
       <div class="splash-numeral">I</div>
       <div class="splash-text">Birth</div>
-      <div class="splash-numeral">II</div>
-      <div class="splash-text">Death</div>
-      <div class="splash-numeral">III</div>
-      <div class="splash-text">Rebirth</div>
 
       <svg class="splash-thread-svg" viewBox="0 0 100 10" preserveAspectRatio="none">
         <path d="M 0 5 Q 25 2, 50 5 T 100 5" />
@@ -1685,6 +1684,10 @@ body.page-revealed .hero {
       // Force reflow
       numEl.offsetHeight; 
 
+      // Update text content for the current stage
+      numEl.textContent = stage.num;
+      txtEl.textContent = stage.text;
+
       // Restore transitions
       numEl.style.transition = '';
       txtEl.style.transition = '';
@@ -1735,11 +1738,27 @@ body.page-revealed .hero {
     setTimeout(playStage, 300);
   }
 
+  /* ---------- Interlocking Spaces Quote (Tap to reveal on Mobile) ---------- */
+  function initInterlockingQuote(){
+    var quote = document.querySelector('.interlocking-quote');
+    if(!quote) return;
+    
+    quote.addEventListener('click', function(e){
+      this.classList.toggle('active');
+      e.stopPropagation();
+    });
+    
+    document.addEventListener('click', function(){
+      quote.classList.remove('active');
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function(){
     initSplashIntro();
     initCountdown();
     initHeroTilt();
     initThemeTrack();
+    initInterlockingQuote();
   });
 })();
 
